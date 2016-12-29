@@ -16,6 +16,7 @@ router.post('/', function(req, res, next) {
     var extroFile = process.env.WAV_EXTRO_INPUT || "extro.wav";
     var outputDir = process.env.WAV_OUTPUT_DIR || "~/Aufnahmen/";
     var inputDir = process.env.WAV_INPUT_DIR || "~/Aufnahmen/";
+    var calledUrl = process.env.OUTPUT_URL || "http;//"+ req.headers.host;
 
 
 
@@ -52,7 +53,7 @@ router.post('/', function(req, res, next) {
                 var exec = require('child_process').exec,
                 child = exec("espeak -v de \""+solution+"\" --stdout | ffmpeg -i "+inputDir+introFile+" -i pipe:0 -i "+inputDir+extroFile+" -filter_complex '[0:0][1:0][2:0]concat=n=3:v=0:a=1[out]' -map '[out]' -acodec pcm_s16le -ac 1 -ar 8000 "+outputDir+solutionFile, (error, stdout, stderr) => {
                         console.log(error, stdout, stderr);
-                res.render('users', { name: 'Express', number: solution, fileName:req.headers.host+"/audio/"+solutionFile});
+                res.render('users', { name: 'Express', number: solution, fileName: calledUrl+"/audio/"+solutionFile});
                 // res.sendfile("output_"+phone+".wav");
                 })
             };

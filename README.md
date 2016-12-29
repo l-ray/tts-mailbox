@@ -9,6 +9,7 @@ Environment variables needed:
  * WAV_INPUT_DIR (default: ~/Aufnahmen/)
  * WAV_INTRO_INPUT (default: "intro.wav")
  * WAV_EXTRO_INPUT (default: "intro.wav")
+ * OUTPUT_URL 
 
 Software needed on server
  * espeak

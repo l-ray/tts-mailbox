@@ -46,6 +46,8 @@ router.post('/', function(req, res, next) {
             var solution = rows[0].solution;
             var solutionFile = "output_"+phone+".wav";
 
+            res.setHeader('content-type','application/xml; charset=utf-8');
+
             if (fs.existsSync(solutionFile)) {
                 res.render('users', { name: 'Express', number: solution, fileName:solutionFile});
             } else {

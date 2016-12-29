@@ -16,7 +16,7 @@ router.post('/', function(req, res, next) {
     var extroFile = process.env.WAV_EXTRO_INPUT || "extro.wav";
     var outputDir = process.env.WAV_OUTPUT_DIR || "~/Aufnahmen/";
     var inputDir = process.env.WAV_INPUT_DIR || "~/Aufnahmen/";
-    var calledUrl = process.env.OUTPUT_URL || "http;//"+ req.headers.host;
+    var calledUrl = process.env.OUTPUT_URL || "http://"+ req.headers.host;
 
 
 
@@ -49,7 +49,7 @@ router.post('/', function(req, res, next) {
             res.setHeader('content-type','application/xml; charset=utf-8');
 
             if (fs.existsSync(outputDir + solutionFile)) {
-                res.render('new-call', { name: 'Express', number: solution, fileName:solutionFile});
+                res.render('new-call', { name: 'Express', number: solution, fileName: calledUrl+"/audio/"+solutionFile});
             } else {
 
                 var exec = require('child_process').exec,

@@ -49,7 +49,7 @@ router.post('/', function(req, res, next) {
             res.setHeader('content-type','application/xml; charset=utf-8');
 
             if (fs.existsSync(outputDir + solutionFile)) {
-                res.render('users', { name: 'Express', number: solution, fileName:solutionFile});
+                res.render('new-call', { name: 'Express', number: solution, fileName:solutionFile});
             } else {
 
                 var exec = require('child_process').exec,

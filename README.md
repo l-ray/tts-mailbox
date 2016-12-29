@@ -5,7 +5,8 @@ Environment variables needed:
  * DB_LOGIN
  * DB_PW
  * DB_NAME
- * WAV_OUTPUT (default: ~/Aufnahmen/)
+ * WAV_OUTPUT_DIR (default: ~/Aufnahmen/)
+ * WAV_INPUT_DIR (default: ~/Aufnahmen/)
  * WAV_INTRO_INPUT (default: "intro.wav")
  * WAV_EXTRO_INPUT (default: "intro.wav")
 

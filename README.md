@@ -5,6 +5,9 @@ Environment variables needed:
  * DB_LOGIN
  * DB_PW
  * DB_NAME
+ * WAV_OUTPUT (default: ~/Aufnahmen/)
+ * WAV_INTRO_INPUT (default: "intro.wav")
+ * WAV_EXTRO_INPUT (default: "intro.wav")
 
 Software needed on server
  * espeak

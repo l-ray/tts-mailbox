@@ -5,7 +5,19 @@ var router = express.Router();
 var fs=require('fs');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
+
+    var from = req.body.from;
+    var to = req.body.to;
+    var direction = req.body.direction;
+    var event = req.body.event;
+    var callId = req.body.callId;
+    var introFile = process.env.WAV_INTRO_INPUT || "intro.wav";
+    var extroFile = process.env.WAV_EXTRO_INPUT || "extro.wav";
+    var outputDir = process.env.WAV_OUTPUT || "~/Aufnahmen/";
+
+
+
     var mysql = require('mysql');
 
     var connection = mysql.createConnection({
@@ -18,7 +30,8 @@ router.get('/', function(req, res, next) {
 
     connection.connect();
     var solution;
-    var phone = req.query.name;
+    var phone = req.body.from;
+        phone = "+"+phone;
     connection.query(
         'select ifnull(max(fn_src.value),\"Unknown\") as solution '+
         ' from oc_contacts_cards_properties as fn_src '+
@@ -29,14 +42,14 @@ router.get('/', function(req, res, next) {
 
             console.log('The solution is: ', rows[0].solution);
             var solution = rows[0].solution;
-            var solutionFile = "public/output_"+phone+".wav";
+            var solutionFile = "output_"+phone+".wav";
 
             if (fs.existsSync(solutionFile)) {
                 res.render('users', { name: 'Express', number: solution, fileName:solutionFile});
             } else {
 
                 var exec = require('child_process').exec,
-                child = exec("espeak -v de \""+solution+"\" --stdout | ffmpeg -i ~/Aufnahmen/intro.wav -i pipe:0 -i ~/Aufnahmen/intro.wav -filter_complex '[0:0][1:0][2:0]concat=n=3:v=0:a=1[out]' -map '[out]' -acodec pcm_s16le -ac 1 -ar 8000 "+solutionFile, (error, stdout, stderr) => {
+                child = exec("espeak -v de \""+solution+"\" --stdout | ffmpeg -i "+outputDir+introFile+" -i pipe:0 -i "+outputDir+extroFile+" -filter_complex '[0:0][1:0][2:0]concat=n=3:v=0:a=1[out]' -map '[out]' -acodec pcm_s16le -ac 1 -ar 8000 "+outputDir+solutionFile, (error, stdout, stderr) => {
                         console.log(error, stdout, stderr);
                 res.render('users', { name: 'Express', number: solution, fileName:solutionFile});
                 // res.sendfile("output_"+phone+".wav");
